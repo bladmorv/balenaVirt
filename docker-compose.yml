@@ -1,9 +1,23 @@
-version: '2'
-
+version: '2.4'
+networks: {}
 volumes:
   settings:                          # Only required if using PERSISTENT flag (see below)
-
 services:
+  main:
+    build:
+      context: .
+    privileged: true
+    tty: true
+    restart: always
+    network_mode: host
+    volumes:
+      - 'settings:/data'
+    labels:
+      io.resin.features.kernel-modules: '1'
+      io.resin.features.firmware: '1'
+      io.resin.features.dbus: '1'
+      io.resin.features.supervisor-api: '1'
+      io.resin.features.resin-api: '1'
 
   browser:
     image: bhcr.io/balenablocks/browser-amd64 # where <arch> is one of aarch64, arm32 or amd64
